@@ -127,7 +127,7 @@ button_export.addEventListener('click', () => {
 });
 
 button_random_seed.addEventListener('click', () => {
-    seed = rnd_hex(6);
+    seed = (Math.round(Math.random_org() * 9999999)).toString(16);
     Math.seedRandom(seed);
     sidebar.set_curriculum(curriculum);
 });

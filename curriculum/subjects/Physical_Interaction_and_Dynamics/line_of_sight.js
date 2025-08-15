@@ -3,6 +3,7 @@ class LineOfSightLesson extends CurriculumLesson {
         super('Line-of-Sight', 'Objects colored based on line-of-sight visibility');
 
         this.warnings.push('ambiguous tasks');
+        this.warnings.push('rasterization');
     }
     generate_task(demo = false) {
         let scene;
