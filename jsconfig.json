@@ -1,0 +1,7 @@
+{
+  "include": [
+    "./**/*.js",
+    "./**/*.d.ts"
+  ],
+  "exclude": ["./rand-seed.js"]
+}

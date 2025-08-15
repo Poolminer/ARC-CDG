@@ -1,0 +1,215 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+    font-family: sans-serif;
+    margin: 0;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: #000000;
+    color: white;
+}
+
+.cell {
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 0.5px;
+}
+
+.container {
+    display: inline-block;
+    background-color: #555555;
+    padding-right: 0.5px;
+    padding-bottom: 0.5px;
+    line-height: 0.5px;
+    padding-left: 0.5px;
+    padding-top: 0.5px;
+}
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    height: 60px;
+    background-color: #333333;
+    display: flex;
+    padding: 0 20px;
+    flex-shrink: 0;
+    font-size: 1.5em;
+    border-style: solid;
+    border-color: #636363;
+    border-width: 1px;
+}
+
+.header.three-col {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.header.three-col .col {
+    flex: 1;
+}
+
+.header.three-col .center {
+    text-align: center;
+}
+
+.header.three-col .right {
+    text-align: right;
+}
+
+.header.three-col button {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    background: url(./github-mark.svg);
+}
+
+.header.three-col button:hover {
+    background-color: #777;
+}
+
+.header.three-col .left,
+.header.three-col .right {
+    flex: 0 0 auto;
+    /* Just their content size */
+}
+
+.header.three-col .center {
+    flex: 1 1 auto;
+    /* Greedy: take remaining space */
+    text-align: center;
+}
+
+.main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    /* Prevent scroll bleed */
+}
+
+.sidebar {
+    flex-shrink: 0;
+    /* This ensures the sidebar won't shrink */
+    width: 240px;
+    background-color: #333333;
+    padding: 20px;
+    overflow-y: auto;
+    /* Scrollable sidebar */
+    box-sizing: border-box;
+    border-style: solid;
+    border-color: #636363;
+    border-width: 1px;
+    border-top-style: none;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    /* Prevents overflow shrink issues */
+    overflow: hidden;
+}
+
+.content-header {
+    min-height: 50px;
+    background-color: #444444;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    flex-shrink: 0;
+    font-size: small;
+    flex-wrap: wrap;
+}
+
+.content-body {
+    flex: 1;
+    background-color: #000000;
+    padding: 4px;
+    overflow-y: auto;
+    /* Scrollable main content */
+    box-sizing: border-box;
+}
+
+.github {
+    padding-top: 6px;
+}
+
+.subject_title {
+    font-weight: bold;
+    font-size: 110%;
+}
+
+.lesson_title {
+    font-weight: normal;
+}
+
+.lesson_description {
+    font-weight: normal;
+    font-style: oblique;
+    font-size: 80%;
+}
+
+.lesson_container {
+    padding-left: 12px;
+}
+
+.task_panel {
+    padding: 1px;
+    position: fixed;
+    left: 50%;
+    top: 20%;
+    border: 3px solid #636363;
+    background-color: #333333;
+    max-height: 70vh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    display: none;
+}
+
+.task_panel_header {
+    padding: 8px;
+    background-color: #444444;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+.task_panel_content {
+    padding: 8px;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+}
+
+#task_panel_close {
+    float: right;
+}
+
+.task_panel_grid {
+    font-size: small;
+    display: inline-block;
+    margin: 6px;
+}
+
+.warning {
+    font-size: small;
+    color: yellow;
+}

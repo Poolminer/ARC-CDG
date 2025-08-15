@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>ARC-CDG: The Curriculum Dataset Generator for ARC-AGI</title>
+    <link rel="icon" href="./favicon.ico">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="layout">
+        <div class="header three-col">
+            <div class="col left">📚 ARC-CDG-1</div>
+            <div class="col center">ARC-CDG: The Curriculum Dataset Generator for ARC-AGI</div>
+            <div class="col right">
+                <div class="github"><a href="https://github.com/"><img src="./github-mark-white.svg" width="38"
+                            height="38" /></a></div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="sidebar" id="sidebar"></div>
+            <div class="content">
+                <div class="content-header">
+                    <label for="num_tasks_per_lesson">Number of tasks per lesson for export:</label>&nbsp;
+                    <select id="num_tasks_per_lesson">
+                        <option value="1">1</option>
+                        <option value="16">16</option>
+                        <option value="128">128</option>
+                        <option value="1024">1024</option>
+                        <option value="2048">2048</option>
+                        <option value="4096">4096</option>
+                        <option value="custom">custom</option>
+                    </select>&nbsp;
+                    <label for="max_num_pairs_per_task">Maximum number of input/output pairs per task for
+                        export:</label>&nbsp;
+                    <select id="max_num_pairs_per_task">
+                        <option value="2" id="option_2">2</option>
+                        <option value="3" id="option_3">3</option>
+                        <option value="4" id="option_4" selected>4</option>
+                        <option value="5" id="option_5">5</option>
+                        <option value="6" id="option_6">6</option>
+                        <option value="7" id="option_7">7</option>
+                        <option value="8" id="option_8">8</option>
+                        <option value="9" id="option_9">9</option>
+                        <option value="10" id="option_10">10</option>
+                        <option value="inf" id="option_inf">inf</option>
+                    </select>&nbsp;
+                    <label for="export_format">Export format:</label>&nbsp;
+                    <select id="export_format">
+                        <option value="ARC-AGI" id="export_format_arc_agi">ARC-AGI (1 test per task)</option>
+                        <option value="RE-ARC" id="export_format_re_arc">RE-ARC</option>
+                        <option value="JSONL" id="export_format_jsonl">Raw grids as JSONL</option>
+                    </select>&nbsp;
+                    <div>
+                        <button type="button" id="button_export">Export selected lessons</button>&nbsp;
+                        <br>
+                        <progress id="progress_bar_export" max="100" value="0" style="display: none"></progress>
+                    </div>
+                    <button type="button" id="button_select_all_lessons">Select all lessons</button>&nbsp;
+                    <button type="button" id="button_deselect_all_lessons">Deselect all lessons</button>&nbsp;
+                    <button type="button" id="button_random_seed">Set random seed</button>&nbsp;
+                    <button type="button" id="button_custom_seed">Set custom seed</button>&nbsp;
+                </div>
+                <div class="content-body" id="content">
+                    <p id="top_text">
+                        ￩ Click on a lesson grid on the left to generate and show tasks for that lesson.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="task_panel" id="task_panel">
+        <div class="task_panel_header" id="task_panel_header">
+            <span id="task_panel_header_title">Task viewer</span>
+            <button id="task_panel_close"><b>&#10799;</b></button>
+        </div>
+        <div class="task_panel_content" id="task_panel_content"></div>
+    </div>
+    <script src="./stdlib.js"></script>
+    <script src="./rand-seed.js"></script>
+
+    <script src="./DOM/DOMElement.js"></script>
+    <script src="./DOM/Sidebar.js"></script>
+    <script src="./DOM/TaskPanel.js"></script>
+
+    <script src="./Bounds.js"></script>
+    <script src="./Outline.js"></script>
+
+    <script src="./curriculum/Task.js"></script>
+    <script src="./curriculum/CurriculumLesson.js"></script>
+    <script src="./curriculum/CurriculumSubject.js"></script>
+    <script src="./curriculum/Curriculum.js"></script>
+
+    <!-- Object Continuity and Transformation -->
+    <script src="./curriculum/subjects/Object_Continuity_and_Transformation/line_drawing.js"></script>
+    <script src="./curriculum/subjects/Object_Continuity_and_Transformation/position_tracking.js"></script>
+    <script src="./curriculum/subjects/Object_Continuity_and_Transformation/rotation_tracking.js"></script>
+    <script src="./curriculum/subjects/Object_Continuity_and_Transformation/outline.js"></script>
+    <script src="./curriculum/subjects/Object_Continuity_and_Transformation/scale_tracking.js"></script>
+    <script src="./curriculum/subjects/Object_Continuity_and_Transformation/reflection_and_flipping.js"></script>
+    <script src="./curriculum/subjects/Object_Continuity_and_Transformation/color_transformation.js"></script>
+    <script src="./curriculum/subjects/Object_Continuity_and_Transformation/composite_transformations.js"></script>
+    <script src="./curriculum/subjects/Object_Continuity_and_Transformation/partial_occlusion.js"></script>
+    <script src="./curriculum/subjects/Object_Continuity_and_Transformation/identity_disambiguation.js"></script>
+
+    <!-- Spatial Relations -->
+    <script src="./curriculum/subjects/Spatial_Relations/relative_positioning.js"></script>
+    <script src="./curriculum/subjects/Spatial_Relations/containment.js"></script>
+    <script src="./curriculum/subjects/Spatial_Relations/fill.js"></script>
+    <script src="./curriculum/subjects/Spatial_Relations/alignment_and_grid_structure.js"></script>
+
+    <!-- Physical Interaction and Dynamics -->
+    <script src="./curriculum/subjects/Physical_Interaction_and_Dynamics/gravity.js"></script>
+    <script src="./curriculum/subjects/Physical_Interaction_and_Dynamics/gravity_no_inbetween.js"></script>
+    <script src="./curriculum/subjects/Physical_Interaction_and_Dynamics/fluid_dynamics.js"></script>
+    <script src="./curriculum/subjects/Physical_Interaction_and_Dynamics/fluid_dynamics_no_inbetween.js"></script>
+    <script src="./curriculum/subjects/Physical_Interaction_and_Dynamics/light_emission_and_blocking.js"></script>
+    <script src="./curriculum/subjects/Physical_Interaction_and_Dynamics/line_of_sight.js"></script>
+    <script src="./curriculum/subjects/Physical_Interaction_and_Dynamics/collision_dynamics.js"></script>
+
+    <script src="./grid/Grid.js"></script>
+    <script src="./grid/GridCanvas.js"></script>
+    <script src="./grid/GridVideo.js"></script>
+
+    <script src="./scene/SceneObject.js"></script>
+    <script src="./scene/Scene.js"></script>
+    <script src="./scene/LiquidScene.js"></script>
+    <script src="./scene/LightScene.js"></script>
+
+    <script src="./todo.js"></script>
+
+    <script src="./FileSaver.min.js"></script>
+    <script src="./jszip.min.js"></script>
+    <script src="./export.js"></script>
+
+    <script src="./main.js"></script>
+</body>
+
+</html>
