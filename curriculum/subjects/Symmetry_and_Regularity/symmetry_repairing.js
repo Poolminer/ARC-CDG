@@ -46,8 +46,19 @@ class SymmetryRepairingLesson extends CurriculumLesson {
             }
             scene.add_object(obj);
 
+            scene.render();
+
+            let count1 = scene.grid.count_color(obj_color);
+
             scene.add_object(breaker_obj);
 
+            scene.render();
+
+            let count2 = scene.grid.count_color(obj_color);
+
+            if(count1 === count2){
+                continue;
+            }
             scene.start_recording();
             scene.render();
 
