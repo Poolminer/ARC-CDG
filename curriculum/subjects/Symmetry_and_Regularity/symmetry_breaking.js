@@ -28,13 +28,11 @@ class SymmetryBreakingLesson extends CurriculumLesson {
 
             object_max_size = Math.round(Math.max(1, object_max_size / 2));
 
-            let breaker_obj = SceneObject.random(obj_color, object_max_size, object_max_size, 0, 0.5);
+            let breaker_obj;
 
-            if(breaker_obj.width !== 1 && breaker_obj.height !== 1){
-                do {
-                    breaker_obj = SceneObject.random(obj_color, object_max_size, object_max_size, 0, 0.5);
-                } while(breaker_obj.is_symmetrical());
-            }
+            do {
+                breaker_obj = SceneObject.random(obj_color, object_max_size, object_max_size, 0, 0.5);
+            } while(breaker_obj.is_symmetrical());
 
             scene.add_object(breaker_obj);
             
