@@ -279,6 +279,18 @@ class Grid {
     clone() {
         return this.copy(0, 0, this.width, this.height);
     }
+    filter(colors=[], bg_color=10) {
+        let grid = this.clone();
+
+        for (let y = 0; y < grid.height; y++) {
+            for (let x = 0; x < grid.width; x++) {
+                if(!colors.includes(grid.array[y][x])){
+                    grid.array[y][x] = bg_color;
+                }
+            }
+        }
+        return grid;
+    }
     bound(bg_color=10) {
         let min_x = 30;
         let min_y = 30;
