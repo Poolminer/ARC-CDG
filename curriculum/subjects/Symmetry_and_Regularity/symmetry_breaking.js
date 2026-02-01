@@ -30,6 +30,12 @@ class SymmetryBreakingLesson extends CurriculumLesson {
 
             let breaker_obj = SceneObject.random(obj_color, object_max_size, object_max_size, 0, 0.5);
 
+            if(breaker_obj.width !== 1 && breaker_obj.height !== 1){
+                do {
+                    breaker_obj = SceneObject.random(obj_color, object_max_size, object_max_size, 0, 0.5);
+                } while(breaker_obj.is_symmetrical());
+            }
+
             scene.add_object(breaker_obj);
             
             scene.add_object(obj);
@@ -60,7 +66,11 @@ class SymmetryBreakingLesson extends CurriculumLesson {
                 scene.add_object(breaker_obj);
                 scene.add_object(obj);
             }
+            scene.render();
 
+            if(scene.grid.is_symmetrical()){
+                continue;
+            }
             scene.start_recording();
             scene.render();
 

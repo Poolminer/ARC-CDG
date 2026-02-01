@@ -399,16 +399,19 @@ class SceneObject {
         return 4;
     }
     is_rotation_invariant() {
-        return this.grid.equals(this.grid.rot90(1));
+        return this.grid.is_rotation_invariant();
     }
     is_vertically_symmetrical() {
-        return this.grid.equals(this.grid.fliplr());
+        return this.grid.is_vertically_symmetrical();
     }
     is_horizontally_symmetrical() {
-        return this.grid.equals(this.grid.flipud());
+        return this.grid.is_horizontally_symmetrical();
     }
     is_diagonally_symmetrical() {
-        return this.grid.equals(this.grid.flipud().fliplr());
+        return this.grid.is_diagonally_symmetrical();
+    }
+    is_symmetrical(){
+        return this.is_vertically_symmetrical() || this.is_horizontally_symmetrical() || this.is_diagonally_symmetrical();
     }
     is_within_fov(p_src, direction, fov, fully = true) {
         for (let x = 0; x < this.width; x++) {

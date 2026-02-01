@@ -348,6 +348,21 @@ class Grid {
         }
         return true;
     }
+    is_rotation_invariant() {
+        return this.equals(this.rot90(1));
+    }
+    is_vertically_symmetrical() {
+        return this.equals(this.fliplr());
+    }
+    is_horizontally_symmetrical() {
+        return this.equals(this.flipud());
+    }
+    is_diagonally_symmetrical() {
+        return this.equals(this.flipud().fliplr());
+    }
+    is_symmetrical(){
+        return this.is_vertically_symmetrical() || this.is_horizontally_symmetrical() || this.is_diagonally_symmetrical();
+    }
     scale(x, y) {
         let grid = new Grid(this.width * x, this.height * y);
 
