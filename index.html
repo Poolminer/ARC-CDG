@@ -22,18 +22,16 @@
             <div class="sidebar" id="sidebar"></div>
             <div class="content">
                 <div class="content-header">
-                    <label for="num_tasks_per_lesson">Number of tasks per lesson for export:</label>
+                    <label for="num_tasks_per_lesson">Number of tasks per lesson for export:</label>(<span onclick="alert(export_warning)" style="color: yellow; cursor: pointer;">?</span>)
                     <select id="num_tasks_per_lesson">
                         <option value="1">1</option>
                         <option value="16">16</option>
                         <option value="128">128</option>
                         <option value="1024">1024</option>
-                        <option value="2048">2048</option>
-                        <option value="4096">4096</option>
                         <option value="custom">custom</option>
                     </select>
                     <span>Pairs per task: </span>
-                    <label for="min_num_pairs_per_task">min.</label><span onclick="alert('Some tasks have a maximum number of frames')" style="color: yellow; cursor: pointer;">*</span>
+                    <label for="min_num_pairs_per_task">min.</label>(<span onclick="alert('Some tasks have a maximum number of frames')" style="color: yellow; cursor: pointer;">?</span>)
                     <select id="min_num_pairs_per_task">
                         <option value="1">1</option>
                         <option value="2">2</option>

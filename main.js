@@ -29,6 +29,8 @@ let export_format = document.getElementById('export_format');
 let export_format_arc_agi = document.getElementById('export_format_arc_agi');
 let export_format_re_arc = document.getElementById('export_format_re_arc');
 
+let export_warning = 'Higher values will cause the export to fail because of how the dataset is stored in memory before being zipped.\n\nTo generate an arbitrary number of tasks, clone the GitHub repo and serve it with "node serve.py", the files will then be saved directly to the local "./output" directory (supports only the RE-ARC and JSONL export formats).';
+
 let scroll_tip_shown = false;
 
 let demo_mode = false;
@@ -127,7 +129,7 @@ button_export.addEventListener('click', () => {
         if (is_being_served()) {
             num_tasks = prompt('Choose the number of tasks per lesson.');
         } else {
-            num_tasks = prompt('Choose the number of tasks per lesson.\n\nHigher values will cause the export to fail because of how the dataset is stored in memory before being zipped.\n\nTo generate an arbitrary number of tasks, clone the GitHub repo and serve it with "node serve.py", the files will then be saved directly to the local "./output" directory (supports only the RE-ARC and JSONL export formats).');
+            num_tasks = prompt(`Choose the number of tasks per lesson.\n\n${export_warning}`);
         }
         if (!/^\d+$/.test(num_tasks)) {
             return;
