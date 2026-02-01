@@ -273,8 +273,6 @@ class Scene {
     }
     clear() {
         this.objects.length = 0;
-        this.video = null;
-        this.#record = false;
     }
     /** Does not work for diagonal movement in edge cases — use overlap detection to detect fauly scenes */
     move_with_collisions(obj, dx, dy) {

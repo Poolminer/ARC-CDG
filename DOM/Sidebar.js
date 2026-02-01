@@ -1,12 +1,16 @@
 class Sidebar extends DOMElement {
     #num_subjects = 0;
     #active_lesson = null
+    
+    reload_active_lesson = function(){}
 
     constructor() {
         super('sidebar');
     }
 
     set_curriculum(curriculum) {
+        demo_mode = true;
+
         this.clear();
 
         for (let subject of curriculum.subjects) {
@@ -87,6 +91,7 @@ class Sidebar extends DOMElement {
 
                     let demo_onclick = () => {
                         this.#active_lesson = lesson;
+                        this.reload_active_lesson = demo_onclick;
 
                         Math.seedRandom(seed);
 
@@ -210,7 +215,9 @@ class Sidebar extends DOMElement {
                     demo_task.element.addEventListener('click', demo_onclick);
 
                     if (this.#active_lesson == lesson) {
+                        demo_mode = false;
                         demo_onclick();
+                        demo_mode = true;
                     }
                 }
                 this.appendChild(lesson_container);
@@ -230,6 +237,8 @@ class Sidebar extends DOMElement {
         let todo_items = todo.split('\n');
 
         let num_lessons = 0;
+
+        this.#num_subjects++;
 
         for (let item of todo_items) {
             if (item.length === 0) {
@@ -286,6 +295,7 @@ class Sidebar extends DOMElement {
             }
             this.br(1);
         }
+        demo_mode = false;
     }
     clear() {
         super.clear();

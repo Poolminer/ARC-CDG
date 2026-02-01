@@ -53,10 +53,11 @@ class CollisionDynamicsLesson extends CurriculumLesson {
                     let attempts = 0;
 
                     do {
-                        obj.set_random_position(scene.bounds);
+                        obj.set_random_position(scene.bounds, 1);
                     } while (scene.contains_connected_objects() && ++attempts !== 16);
 
                     if (scene.contains_connected_objects()) {
+                        scene.remove_object(obj);
                         continue;
                     }
                 }
@@ -146,7 +147,7 @@ class CollisionDynamicsLesson extends CurriculumLesson {
                         num_steps++;
                         required_steps--;
                     }
-                    if (colliders.length < 2 || required_steps > 0) {
+                    if (colliders.length < 2 || required_steps > 0 || scene.contains_overlapping_objects()) {
                         num_steps = 0;
                         continue;
                     }
@@ -156,7 +157,7 @@ class CollisionDynamicsLesson extends CurriculumLesson {
 
             scene.video.pop();
 
-            scene.video.fps = 8;
+            scene.video.fps = 6;
 
             videos.push(scene.video);
         }

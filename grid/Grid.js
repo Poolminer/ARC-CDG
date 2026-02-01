@@ -279,7 +279,7 @@ class Grid {
     clone() {
         return this.copy(0, 0, this.width, this.height);
     }
-    bound() {
+    bound(bg_color=10) {
         let min_x = 30;
         let min_y = 30;
         let max_x = 0;
@@ -287,7 +287,7 @@ class Grid {
 
         for (let y = 0; y < this.height; y++) {
             for (let x = 0; x < this.width; x++) {
-                if (this.array[y][x] !== 10) {
+                if (this.array[y][x] !== bg_color) {
                     min_x = Math.min(min_x, x);
                     min_y = Math.min(min_y, y);
                     max_x = Math.max(max_x, x);

@@ -35,12 +35,12 @@ class TaskPanel extends DOMElement {
         this.#video = video;
         this.#output_is_next_input = output_is_next_input;
 
-        this.set_title(`${export_format.value} format`);
-
         let max_pairs = get_max_pairs();
         let grids = get_grid_list(video, output_is_next_input, max_pairs);
 
         if (export_format.value === 'JSONL') {
+            this.set_title(`${export_format.value} format, ${grids.length} grids.`);
+
             for (let grid of grids) {
                 let grid_div = document.createElement('div');
                 grid_div.className = 'task_panel_grid';
@@ -49,6 +49,9 @@ class TaskPanel extends DOMElement {
                 this.br();
             }
         } else {
+            let num_pairs = grids.length / 2;
+            this.set_title(`${export_format.value} format, ${num_pairs} pair${num_pairs === 1 ? '' : 's'}.`);
+
             let i = 0;
             let j = 1;
 
@@ -58,7 +61,12 @@ class TaskPanel extends DOMElement {
                 grid_div.className = 'task_panel_grid';
 
                 let span = document.createElement('span');
+                let span2 = document.createElement('span');
+
+                span2.style.float = "right";
+
                 let txt;
+                let txt2;
 
                 if (export_format.value === 'ARC-AGI') {
                     if (g > grids.length - 3) {
@@ -69,9 +77,13 @@ class TaskPanel extends DOMElement {
                 } else {
                     txt = document.createTextNode(i % 2 === 0 ? `Input` : `Output`);
                 }
+                txt2 = document.createTextNode(`(${grid.width}x${grid.height})`);
+                
                 span.appendChild(txt);
+                span2.appendChild(txt2);
 
                 grid_div.appendChild(span);
+                grid_div.appendChild(span2);
 
                 br(grid_div);
 

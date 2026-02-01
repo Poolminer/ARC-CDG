@@ -30,6 +30,19 @@ class GridVideo {
         this.grid_canvas.cell_size = cell_size;
         this.grid_canvas.border_size = border_size;
 
+        let greatest_width = 0;
+        let greatest_height = 0;
+
+        for(let grid of this.grids){
+            if(grid.width > greatest_width){
+                greatest_width = grid.width;
+            }
+            if(grid.height > greatest_height){
+                greatest_height = grid.height;
+            }
+        }
+        this.grid_canvas.fit_to_wh(greatest_width, greatest_height);
+        
         let render = () => {
             if (this.element.parentNode === null) {
                 this.stop();

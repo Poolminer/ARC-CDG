@@ -11,7 +11,7 @@
 <body>
     <div class="layout">
         <div class="header three-col">
-            <div class="col left">📚 ARC-CDG-1</div>
+            <div class="col left">📚 ARC-CDG-2</div>
             <div class="col center">ARC-CDG: The Curriculum Dataset Generator for ARC-AGI</div>
             <div class="col right">
                 <div class="github"><a href="https://github.com/Poolminer/ARC-CDG"><img src="./github-mark-white.svg"
@@ -22,7 +22,7 @@
             <div class="sidebar" id="sidebar"></div>
             <div class="content">
                 <div class="content-header">
-                    <label for="num_tasks_per_lesson">Number of tasks per lesson for export:</label>&nbsp;
+                    <label for="num_tasks_per_lesson">Number of tasks per lesson for export:</label>
                     <select id="num_tasks_per_lesson">
                         <option value="1">1</option>
                         <option value="16">16</option>
@@ -31,36 +31,54 @@
                         <option value="2048">2048</option>
                         <option value="4096">4096</option>
                         <option value="custom">custom</option>
-                    </select>&nbsp;
-                    <label for="max_num_pairs_per_task">Maximum number of input/output pairs per task for
-                        export:</label>&nbsp;
+                    </select>
+                    <span>Pairs per task: </span>
+                    <label for="min_num_pairs_per_task">min.</label><span onclick="alert('Some tasks have a maximum number of frames')" style="color: yellow; cursor: pointer;">*</span>
+                    <select id="min_num_pairs_per_task">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4" selected>4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11" id="option_min_n">11</option>
+                        <option value="custom" id="option_min_custom">custom</option>
+                    </select>
+                    <label for="max_num_pairs_per_task">max.</label>
                     <select id="max_num_pairs_per_task">
-                        <option value="2" id="option_2">2</option>
-                        <option value="3" id="option_3">3</option>
-                        <option value="4" id="option_4" selected>4</option>
-                        <option value="5" id="option_5">5</option>
-                        <option value="6" id="option_6">6</option>
-                        <option value="7" id="option_7">7</option>
-                        <option value="8" id="option_8">8</option>
-                        <option value="9" id="option_9">9</option>
-                        <option value="10" id="option_10">10</option>
-                        <option value="inf" id="option_inf">inf</option>
-                    </select>&nbsp;
-                    <label for="export_format">Export format:</label>&nbsp;
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6" selected>6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11" id="option_max_n">11</option>
+                        <option value="custom" id="option_custom">custom</option>
+                    </select>
+                    <br>
+                    <label for="export_format">Export format:</label>
                     <select id="export_format">
                         <option value="ARC-AGI" id="export_format_arc_agi">ARC-AGI (1 test per task)</option>
                         <option value="RE-ARC" id="export_format_re_arc">RE-ARC</option>
                         <option value="JSONL" id="export_format_jsonl">Raw grids as JSONL</option>
-                    </select>&nbsp;
-                    <div>
-                        <button type="button" id="button_export">Export selected lessons</button>&nbsp;
+                    </select>
+                    <div style="display:inline-block">
+                        <button type="button" id="button_export">Export selected lessons</button>
                         <br>
                         <progress id="progress_bar_export" max="100" value="0" style="display: none"></progress>
                     </div>
-                    <button type="button" id="button_select_all_lessons">Select all lessons</button>&nbsp;
-                    <button type="button" id="button_deselect_all_lessons">Deselect all lessons</button>&nbsp;
-                    <button type="button" id="button_random_seed">Set random seed</button>&nbsp;
-                    <button type="button" id="button_custom_seed">Set custom seed</button>&nbsp;
+                    <button type="button" id="button_select_all_lessons">Select all lessons</button>
+                    <button type="button" id="button_deselect_all_lessons">Deselect all lessons</button>
+                    <button type="button" id="button_random_seed">Set random seed</button>
+                    <button type="button" id="button_custom_seed">Set custom seed</button>
                 </div>
                 <div class="content-body" id="content">
                     <p id="top_text">
@@ -118,6 +136,22 @@
     <script src="./curriculum/subjects/Physical_Interaction_and_Dynamics/light_emission_and_blocking.js"></script>
     <script src="./curriculum/subjects/Physical_Interaction_and_Dynamics/line_of_sight.js"></script>
     <script src="./curriculum/subjects/Physical_Interaction_and_Dynamics/collision_dynamics.js"></script>
+
+    <!-- Grouping and Compositionality -->
+    <script src="./curriculum/subjects/Grouping_and_Compositionality/object_assembly.js"></script>
+    <script src="./curriculum/subjects/Grouping_and_Compositionality/tiling_repetition.js"></script>
+    <script src="./curriculum/subjects/Grouping_and_Compositionality/group_consistency.js"></script>
+
+    <!-- Symmetry and Regularity -->
+    <script src="./curriculum/subjects/Symmetry_and_Regularity/symmetry_classification.js"></script>
+    <script src="./curriculum/subjects/Symmetry_and_Regularity/symmetry_breaking.js"></script>
+    <script src="./curriculum/subjects/Symmetry_and_Regularity/symmetry_repairing.js"></script>
+
+    <!-- Counting and Arithmetic Reasoning -->
+    <script src="./curriculum/subjects/Counting_and_Arithmetic_Reasoning/object_counting.js"></script>
+    <script src="./curriculum/subjects/Counting_and_Arithmetic_Reasoning/add_subtract.js"></script>
+    <script src="./curriculum/subjects/Counting_and_Arithmetic_Reasoning/more_or_fewer.js"></script>
+    <script src="./curriculum/subjects/Counting_and_Arithmetic_Reasoning/proportional_reasoning.js"></script>
 
     <script src="./grid/Grid.js"></script>
     <script src="./grid/GridCanvas.js"></script>

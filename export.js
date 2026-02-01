@@ -12,7 +12,14 @@ function get_grid_list(video, output_is_next_input, max_num_pairs) {
             grids.push(video.grids[j]);
         }
     }
+    grids[grids.length - 2] = video.grids[video.grids.length - 2];
+    grids[grids.length - 1] = video.grids[video.grids.length - 1];
+
     return grids;
+}
+
+function get_export_name(num_tasks_per_lesson){
+    return `cdg_export_${seed}_${num_tasks_per_lesson}_${get_min_pairs()}_${get_max_pairs()}.zip`;
 }
 
 function export_curriculum_arc_agi(curriculum, num_tasks_per_lesson, max_num_pairs) {
@@ -83,7 +90,7 @@ function export_curriculum_arc_agi(curriculum, num_tasks_per_lesson, max_num_pai
                 zip.file("arc-cdg_solutions.json", JSON.stringify(solutions));
 
                 zip.generateAsync({ type: "blob" }).then(function (content) {
-                    saveAs(content, `cdg_export_${(Date.now() - 1755187418398).toString(16)}.zip`);
+                    saveAs(content, get_export_name(num_tasks_per_lesson));
                 });
                 progress_bar_export.style.display = 'none';
                 button_export.innerText = button_export_org_txt;
@@ -157,7 +164,7 @@ function export_curriculum_re_arc(curriculum, num_tasks_per_lesson, max_num_pair
             if (++lesson_index === to_export.length) {
                 if (zip !== null) {
                     zip.generateAsync({ type: "blob" }).then(function (content) {
-                        saveAs(content, "cdg_export.zip");
+                        saveAs(content, get_export_name(num_tasks_per_lesson));
                     });
                 }
                 progress_bar_export.style.display = 'none';
@@ -234,7 +241,7 @@ function export_curriculum_jsonl(curriculum, num_tasks_per_lesson) {
             if (++lesson_index === to_export.length) {
                 if (zip !== null) {
                     zip.generateAsync({ type: "blob" }).then(function (content) {
-                        saveAs(content, "cdg_export.zip");
+                        saveAs(content, get_export_name(num_tasks_per_lesson));
                     });
                 }
                 progress_bar_export.style.display = 'none';

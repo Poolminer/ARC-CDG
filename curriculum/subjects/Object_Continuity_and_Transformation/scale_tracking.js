@@ -32,10 +32,10 @@ class ScaleTrackingLesson extends CurriculumLesson {
 
                 obj.set_scale(scale);
 
-                if (obj.width > scene_width || obj.height > scene.height) {
+                if (obj.grid_transformed.width + obj.outline_size * 2 > scene_width || obj.grid_transformed.height + obj.outline_size * 2 > scene.height) {
                     continue;
                 }
-                while (obj.width <= scene_width && obj.height <= scene_height) {
+                while (obj.grid_transformed.width + obj.outline_size * 2 <= scene_width && obj.grid_transformed.height + obj.outline_size * 2 <= scene_height) {
                     obj.set_scale(++scale);
                 }
                 obj.set_scale(--scale);

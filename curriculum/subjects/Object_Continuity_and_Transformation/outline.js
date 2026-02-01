@@ -32,6 +32,9 @@ class OutlineLesson extends CurriculumLesson {
             obj.outline_size = 1;
             obj.outline_color = outline_color;
 
+            obj.grid_x -= 1;
+            obj.grid_y -= 1;
+
             scene.render();
             scene.stop_recording();
 

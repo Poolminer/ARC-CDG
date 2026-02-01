@@ -29,8 +29,15 @@ function rnd_obj_size(max_size, mul_min, mul_max) {
 function rnd_int(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
-function rnd_val(array) {
-    return array[Math.floor(Math.random() * array.length)];
+function rnd_val(array, excludes = []) {
+    while(true){
+        let val = array[Math.floor(Math.random() * array.length)];
+
+        if(excludes.includes(val)){
+            continue;
+        }
+        return val;
+    }
 }
 function rnd_bool() {
     return Math.random() < Math.random();
@@ -60,7 +67,7 @@ function rnd_bg_color() {
     return Math.random() > 0.2 ? 0 : rnd_color();
 }
 function rnd_num_pairs() {
-    return rnd_int(4, 10);
+    return rnd_int(get_min_pairs(), get_max_pairs());
 }
 function arrlast(arr) {
     return arr[arr.length - 1];
@@ -76,6 +83,16 @@ function arr1du8(length, fill_val = 0) {
 }
 function arr2du8(width, height, fill_val = 0) {
     return Array.from({ length: height }, () => arr1du8(width, fill_val));
+}
+function arrshuffle(array) {
+    let currentIndex = array.length;
+
+    while (currentIndex != 0) {
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
 }
 function p2d(x = 0, y = 0) {
     return {

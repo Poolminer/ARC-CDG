@@ -1,18 +1,4 @@
 let todo = `
-Subject: Grouping & Compositionality
-    • Object Assembly – Combine parts to form complex shapes.
-    • Tiling & Repetition – Pattern replication across the grid.
-    • Group Consistency – Apply rules to entire categories of items.
-    • Substructure Matching – Find or replicate internal structure.
-Subject: Symmetry & Regularity
-    • Symmetry Classification – Assign colors to objects based on their symmetry type (vertical, horizontal, diagonal).
-    • Symmetry Breaking – Detect the anomaly in a symmetric pattern.
-    • Symmetry Repairing – Restore a complete symmetric structure from an incomplete one.
-Subject: Counting & Arithmetic Reasoning
-    • Object Counting
-    • Add/Subtract Objects – Observe changes in quantity.
-    • Proportional Reasoning – Double, half, or equal group sizes.
-    • Multiplicative Grouping – Replicate or generate by rule.
 Subject: Gestalt Principles of Perception
     • Proximity – Objects near each other are perceived as grouped.
     • Similarity – Objects that share color or shape are grouped.

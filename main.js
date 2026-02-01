@@ -19,14 +19,20 @@ let button_export_abort_txt = 'Cancel export';
 
 let progress_bar_export = document.getElementById('progress_bar_export');
 let num_tasks_per_lesson = document.getElementById('num_tasks_per_lesson');
+let min_num_pairs_per_task = document.getElementById('min_num_pairs_per_task');
 let max_num_pairs_per_task = document.getElementById('max_num_pairs_per_task');
-let option_inf = document.getElementById('option_inf');
-let prev_option = document.getElementById(`option_${max_num_pairs_per_task.value}`);
+let option_min_n = document.getElementById('option_min_n');
+let option_max_n = document.getElementById('option_max_n');
+let prev_option_min = min_num_pairs_per_task.selectedOptions[0];
+let prev_option_max = max_num_pairs_per_task.selectedOptions[0];
 let export_format = document.getElementById('export_format');
 let export_format_arc_agi = document.getElementById('export_format_arc_agi');
 let export_format_re_arc = document.getElementById('export_format_re_arc');
 
 let scroll_tip_shown = false;
+
+let demo_mode = false;
+let demo_num_pairs = 4;
 
 content.element.style.lineHeight = '0px';
 
@@ -60,17 +66,50 @@ subject.add_lesson(new GravityNoInbetweenLesson());
 subject.add_lesson(new FluidDynamicsLesson(), false);
 subject.add_lesson(new FluidDynamicsNoInbetweenLesson());
 subject.add_lesson(new LightEmissionAndBlockingLesson(), false);
-subject.add_lesson(new LineOfSightLesson(), false);
+//subject.add_lesson(new LineOfSightLesson(), false);
 subject.add_lesson(new CollisionDynamicsLesson(), false);
+curriculum.add_subject(subject);
+
+subject = new CurriculumSubject('Grouping and Compositionality');
+subject.add_lesson(new ObjectAssemblyLesson());
+subject.add_lesson(new TilingRepetitionLesson());
+subject.add_lesson(new GroupConsistencyLesson());
+curriculum.add_subject(subject);
+
+subject = new CurriculumSubject('Symmetry and Regularity');
+subject.add_lesson(new SymmetryClassificationLesson());
+subject.add_lesson(new SymmetryBreakingLesson());
+subject.add_lesson(new SymmetryRepairingLesson());
+curriculum.add_subject(subject);
+
+subject = new CurriculumSubject('Counting and Arithmetic Reasoning');
+subject.add_lesson(new ObjectCountingLesson());
+subject.add_lesson(new MoreOrFewerLesson());
+subject.add_lesson(new AddSubtractLesson());
+subject.add_lesson(new ProportionalReasoningLesson());
 curriculum.add_subject(subject);
 
 sidebar.set_curriculum(curriculum);
 
+function get_min_pairs() {
+    if(demo_mode){
+        return demo_num_pairs;
+    }
+    if (/^\d+$/.test(min_num_pairs_per_task.value)) {
+        return parseInt(min_num_pairs_per_task.value);
+    } else {
+        return get_max_pairs();
+    }
+}
+
 function get_max_pairs() {
+    if(demo_mode){
+        return demo_num_pairs;
+    }
     if (/^\d+$/.test(max_num_pairs_per_task.value)) {
         return parseInt(max_num_pairs_per_task.value);
     } else {
-        return Infinity;
+        return 4;
     }
 }
 
@@ -167,22 +206,55 @@ button_deselect_all_lessons.addEventListener('click', () => {
     }
 });
 
-max_num_pairs_per_task.addEventListener('change', () => {
-    prev_option = document.getElementById(`option_${max_num_pairs_per_task.value}`);
+min_num_pairs_per_task.addEventListener('change', () => {
+    if(min_num_pairs_per_task.value == 'custom'){
+        custom = parseInt(prompt('Min number of pairs'));
 
-    if (task_panel.visible()) {
-        task_panel.refresh();
+        if (!custom || custom < 0) {
+            prev_option_min.selected = true;
+            return;
+        }
+        option_min_n.value = custom;
+        option_min_n.text = custom;
+        option_min_n.selected = true;
+        prev_option_min = option_min_n;
     }
+    if(get_max_pairs() < get_min_pairs()){
+        option_max_n.value = get_min_pairs();
+        option_max_n.text = option_max_n.value;
+        option_max_n.selected = true;
+        prev_option_max = option_max_n;
+    }
+    prev_option_min = min_num_pairs_per_task.selectedOptions[0];
+
+    sidebar.reload_active_lesson();
+});
+
+max_num_pairs_per_task.addEventListener('change', () => {
+    if(max_num_pairs_per_task.value == 'custom'){
+        custom = parseInt(prompt('Max number of pairs'));
+
+        if (!custom || custom < 0) {
+            prev_option_max.selected = true;
+            return;
+        }
+        option_max_n.value = custom;
+        option_max_n.text = custom;
+        option_max_n.selected = true;
+        prev_option_max = option_max_n;
+    }
+    if(get_min_pairs() > get_max_pairs()){
+        option_min_n.value = get_max_pairs();
+        option_min_n.text = option_min_n.value;
+        option_min_n.selected = true;
+        prev_option_min = option_min_n;
+    }
+    prev_option_max = max_num_pairs_per_task.selectedOptions[0];
+
+    sidebar.reload_active_lesson();
 });
 
 export_format.addEventListener('change', () => {
-    if (export_format.value === 'JSONL') {
-        option_inf.selected = true;
-        max_num_pairs_per_task.disabled = true;
-    } else {
-        prev_option.selected = true;
-        max_num_pairs_per_task.disabled = false;
-    }
     if (task_panel.visible()) {
         task_panel.refresh();
     }

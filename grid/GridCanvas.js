@@ -10,18 +10,35 @@ class GridCanvas {
         this.element_ctx = this.element.getContext('2d');
 
         this.use_cache = false;
+
+        this.sticky = true;
+
+        this.element.width = 1;
+        this.element.height = 1;
     }
     set_cell(x, y, color) {
         this.buffer_ctx.fillStyle = color.hex;
         this.buffer_ctx.fillRect(x * this.cell_size + this.border_size, y * this.cell_size + this.border_size, this.cell_size - this.border_size, this.cell_size - this.border_size);
     }
     fit_to(grid) {
-        let target_width = grid.width * this.cell_size + this.border_size;
-        let target_height = grid.height * this.cell_size + this.border_size;
+        this.fit_to_wh(grid.width, grid.height);
+    }
+    fit_to_wh(width, height) {
+        let target_width = width * this.cell_size + this.border_size;
+        let target_height = height * this.cell_size + this.border_size;
 
-        if (this.element.width !== target_width || this.element.height !== target_height) {
-            this.element.width = target_width;
-            this.element.height = target_height;
+        if(this.sticky){
+            if (this.element.width < target_width) {
+                this.element.width = target_width;
+            }
+            if (this.element.height < target_height) {
+                this.element.height = target_height;
+            }
+        } else {
+            if (this.element.width !== target_width || this.element.height !== target_height) {
+                this.element.width = target_width;
+                this.element.height = target_height;
+            }
         }
     }
     render(grid, fit_to = true) {

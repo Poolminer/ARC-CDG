@@ -1,9 +1,3 @@
-let SceneObjectType = {
-    SOLID: 0,
-    FLUID: 1,
-    EMITTER: 3,
-};
-
 class SceneObject {
     #x = 0;
     #y = 0;
@@ -206,12 +200,12 @@ class SceneObject {
     update_bounds() {
         this.bounds.x = this.grid_x;
         this.bounds.y = this.grid_y;
-        this.bounds.width = this.width;
-        this.bounds.height = this.height;
+        this.bounds.width = this.grid_transformed.width;
+        this.bounds.height = this.grid_transformed.height;
     }
-    set_color(color) {
-        for (let x = 0; x < this.grid.width; x++) {
-            for (let y = 0; y < this.grid.height; y++) {
+    set_color(color, sx=0, sy=0, width=this.grid.width, height=this.grid.height) {
+        for (let x = sx; x < sx + width; x++) {
+            for (let y = sy; y < sy + height; y++) {
                 if (this.grid.array[y][x] !== 10) {
                     this.grid.array[y][x] = color;
                 }
@@ -299,7 +293,48 @@ class SceneObject {
         this.compute_transform();
     }
     draw_onto(grid, wrap = false) {
-        grid.draw(this.grid_x - this.outline_size, this.grid_y - this.outline_size, this.grid_transformed, true, wrap);
+        grid.draw(this.grid_x, this.grid_y, this.grid_transformed, true, wrap);
+    }
+    split_vertically(at, edge_color=-1){
+        let grid = this.grid.clone();
+
+        at = Math.floor(at);
+
+        let x1 = at;
+        let x2 = at + 1;
+
+        if(edge_color !== -1){
+            for (let y = 0; y < grid.height; y++) {
+                grid.array[y][x1] = edge_color;
+                grid.array[y][x2] = edge_color;
+            }
+        }
+        let left_half = new SceneObject(grid.copy(0, 0, x2, grid.height).bound());
+        let right_half = new SceneObject(grid.copy(x2, 0, grid.width - x1, grid.height).bound());
+
+        return [left_half, right_half];
+    }
+    split_horizontally(at, edge_color=-1){
+        let grid = this.grid.clone();
+
+        at = Math.floor(at);
+
+        let y1 = at;
+        let y2 = at + 1;
+
+        if(edge_color !== -1){
+            for (let x = 0; x < grid.width; x++) {
+                grid.array[y1][x] = edge_color;
+                grid.array[y2][x] = edge_color;
+            }
+        }
+        let upper_half = new SceneObject(grid.copy(0, 0, grid.width, y2).bound());
+        let lower_half = new SceneObject(grid.copy(0, y2, grid.width, grid.height - y1).bound());
+
+        return [upper_half, lower_half];
+    }
+    copy(x, y, width, height){
+        return new SceneObject(this.grid.copy(x, y, width, height).bound());
     }
     mutate(mutation_rate, color) {
         for (let x = 0; x < this.grid.width; x++) {
@@ -372,6 +407,9 @@ class SceneObject {
     is_horizontally_symmetrical() {
         return this.grid.equals(this.grid.flipud());
     }
+    is_diagonally_symmetrical() {
+        return this.grid.equals(this.grid.flipud().fliplr());
+    }
     is_within_fov(p_src, direction, fov, fully = true) {
         for (let x = 0; x < this.width; x++) {
             for (let y = 0; y < this.height; y++) {
@@ -423,8 +461,8 @@ class SceneObject {
         if (this.is_partially_within(obj) || obj.is_partially_within(this)) {
             return true;
         }
-        for (let x = 0; x < this.width; x++) {
-            for (let y = 0; y < this.height; y++) {
+        for (let x = 0; x < this.grid_transformed.width; x++) {
+            for (let y = 0; y < this.grid_transformed.height; y++) {
                 if (this.grid_transformed.array[y][x] === 10) {
                     continue;
                 }
@@ -450,8 +488,8 @@ class SceneObject {
         let has_inside = false;
         let has_outside = false;
 
-        for (let x = 0; x < this.width; x++) {
-            for (let y = 0; y < this.height; y++) {
+        for (let x = 0; x < this.grid_transformed.width; x++) {
+            for (let y = 0; y < this.grid_transformed.height; y++) {
                 if (this.grid_transformed.array[y][x] === 10) {
                     continue;
                 }
@@ -479,8 +517,8 @@ class SceneObject {
         if (!this.bounds.overlaps(obj.bounds)) {
             return false;
         }
-        for (let x = 0; x < this.width; x++) {
-            for (let y = 0; y < this.height; y++) {
+        for (let x = 0; x < this.grid_transformed.width; x++) {
+            for (let y = 0; y < this.grid_transformed.height; y++) {
                 if (this.grid_transformed.array[y][x] === 10) {
                     continue;
                 }
@@ -505,19 +543,19 @@ class SceneObject {
         } else if (check_bounds_only) {
             return true;
         }
-        for (let x = 0; x < this.width; x++) {
-            for (let y = 0; y < this.height; y++) {
+        for (let x = 0; x < this.grid_transformed.width; x++) {
+            for (let y = 0; y < this.grid_transformed.height; y++) {
                 let _x = x + this.grid_x;
                 let _y = y + this.grid_y;
 
                 let __x = _x - obj.grid_x;
                 let __y = _y - obj.grid_y;
 
-                if (this.grid.array[y][x] !== 10) {
-                    if (obj.bounds.contains_point(_x, _y) && obj.grid.array[__y][__x] !== 10) {
+                if (this.grid_transformed.array[y][x] !== 10) {
+                    if (obj.bounds.contains_point(_x, _y) && obj.grid_transformed.array[__y][__x] !== 10) {
                         return true;
                     }
-                    if (obj.grid.cell_neighbor_count(__x, __y) !== 0) {
+                    if (obj.grid_transformed.cell_neighbor_count(__x, __y) !== 0) {
                         return true;
                     }
                 }
@@ -560,6 +598,7 @@ class SceneObject {
         let grid_x = Math.floor(max_width / 2);
         let grid_y = Math.floor(max_height / 2);
         let area = max_width * max_height;
+        let bounds_max = new Bounds(0, 0, max_width, max_height);
 
         grid.array[grid_y][grid_x] = color;
 
@@ -567,13 +606,21 @@ class SceneObject {
 
         let num_cells = Math.max(1, Math.round(r * area));
 
-        let cell_indices = [
-            {
-                x: grid_x,
-                y: grid_y
-            }
-        ];
-        let bounds_max = new Bounds(0, 0, max_width, max_height);
+        let cell_indices = [];
+        let symmetry_coords_array = get_symmetry_coords(grid_x, grid_y, bounds_max, symmetry);
+
+        for (let symmtery_coords of symmetry_coords_array) {
+            let target_x = symmtery_coords[0];
+            let target_y = symmtery_coords[1];
+
+            grid.array[target_y][target_x] = color;
+            cell_indices.push(
+                {
+                    x: target_x,
+                    y: target_y
+                }
+            );
+        }
 
         while (cell_indices.length < num_cells) {
             let cell_index = rnd_val(cell_indices);
