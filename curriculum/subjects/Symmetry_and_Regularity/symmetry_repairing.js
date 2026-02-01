@@ -10,10 +10,10 @@ class SymmetryRepairingLesson extends CurriculumLesson {
 
         let target_num_videos = rnd_num_pairs();
 
-        while (videos.length !== target_num_videos) {
-            let scene_width = 30;
-            let scene_height = 30;
+        let scene_width = demo ? 30 : rnd_int(15, 30);
+        let scene_height = demo ? 30 : rnd_int(15, 30);
 
+        while (videos.length !== target_num_videos) {
             let object_max_size = rnd_obj_size(30, 0.20, 0.35);
 
             let symmetry = 1;
@@ -36,10 +36,7 @@ class SymmetryRepairingLesson extends CurriculumLesson {
             breaker_obj.y = point.y;
 
             if(this.crop){
-                scene_width = obj.width;
-                scene_height = obj.height;
-
-                scene = new Scene(scene_width, scene_height, bg_color);
+                scene = new Scene(obj.width, obj.height, bg_color);
 
                 breaker_obj.grid_x -= obj.grid_x;
                 breaker_obj.grid_y -= obj.grid_y;

@@ -14,10 +14,10 @@ class SymmetryBreakingLesson extends CurriculumLesson {
 
         let target_num_videos = rnd_num_pairs();
 
-        while (videos.length !== target_num_videos) {
-            let scene_width = 30;
-            let scene_height = 30;
+        let scene_width = demo ? 30 : rnd_int(15, 30);
+        let scene_height = demo ? 30 : rnd_int(15, 30);
 
+        while (videos.length !== target_num_videos) {
             let object_max_size = rnd_obj_size(30, 0.15, 0.25);
 
             let scene = new Scene(scene_width, scene_height, bg_color);
@@ -53,10 +53,7 @@ class SymmetryBreakingLesson extends CurriculumLesson {
                 let dx = breaker_obj.grid_x < obj.grid_x ? breaker_obj.grid_x : obj.grid_x;
                 let dy = breaker_obj.grid_y < obj.grid_y ? breaker_obj.grid_y : obj.grid_y;
 
-                scene_width = new_grid.width;
-                scene_height = new_grid.height;
-
-                scene = new Scene(scene_width, scene_height, bg_color);
+                scene = new Scene(new_grid.width, new_grid.height, bg_color);
                 obj.grid_x -= dx;
                 obj.grid_y -= dy;
                 
