@@ -64,7 +64,7 @@ class SymmetryBreakingLesson extends CurriculumLesson {
             breaker_obj.set_color(mark_color);
             scene.render();
 
-            if(scene.grid.is_symmetrical() || scene.grid.filter([mark_color], bg_color).bound(bg_color).is_symmetrical()){
+            if(scene.grid.filter([mark_color], bg_color).bound(bg_color).is_symmetrical()){
                 continue;
             }
             breaker_obj.set_color(obj_color);
