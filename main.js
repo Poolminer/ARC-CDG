@@ -81,9 +81,9 @@ curriculum.add_subject(subject);
 subject = new CurriculumSubject('Symmetry and Regularity');
 subject.add_lesson(new SymmetryClassificationLesson());
 subject.add_lesson(new SymmetryBreakingLesson());
-subject.add_lesson(new SymmetryBreakingCroppedLesson());
+subject.add_lesson(new SymmetryBreakingCroppedLesson(), false);
 subject.add_lesson(new SymmetryRepairingLesson());
-subject.add_lesson(new SymmetryRepairingCroppedLesson());
+subject.add_lesson(new SymmetryRepairingCroppedLesson(), false);
 curriculum.add_subject(subject);
 
 subject = new CurriculumSubject('Counting and Arithmetic Reasoning');
