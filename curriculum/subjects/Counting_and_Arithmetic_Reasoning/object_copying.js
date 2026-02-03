@@ -11,22 +11,32 @@ class ObjectCopyingLesson extends CurriculumLesson {
         let scene_height = horizontal ? 5 : 29;
 
         let bg_color = rnd_bg_color();
-        let new_obj_color = rnd_color([bg_color]);
 
         let target_num_videos = rnd_num_pairs();
 
         let num_objs = rnd_int(2, 6);
 
-        while (videos.length !== target_num_videos) {
-            let object_max_width = 3;
-            let object_max_height = 3;
+        let object_max_width = 3;
+        let object_max_height = 3;
 
-            let obj_color = rnd_color([bg_color, new_obj_color]);
+        let obj_color = rnd_color([bg_color]);
+
+        let obj_test = SceneObject.random(obj_color, object_max_width, object_max_height);
+
+        while (videos.length !== target_num_videos) {
+            let obj_color = rnd_color([bg_color]);
 
             let scene = new Scene(scene_width, scene_height, bg_color);
 
-            let obj = SceneObject.random(obj_color, object_max_width, object_max_height);
+            let obj;
 
+            if(videos.length == target_num_videos - 1){
+                obj = obj_test;
+            } else {
+                do {
+                    obj = SceneObject.random(obj_color, object_max_width, object_max_height);
+                } while(obj.grid.equals(obj_test.grid));
+            }
             obj.grid_x = 1;
             obj.grid_y = 1;
 

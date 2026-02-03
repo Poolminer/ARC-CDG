@@ -348,7 +348,7 @@ class Grid {
         if (other == undefined) {
             return false;
         }
-        if (other.width !== this.width || this.height !== this.height) {
+        if (other.width !== this.width || other.height !== this.height) {
             return false;
         }
         for (let x = 0; x < this.width; x++) {
