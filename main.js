@@ -91,6 +91,7 @@ subject.add_lesson(new ObjectCountingLesson());
 subject.add_lesson(new MoreOrFewerLesson());
 subject.add_lesson(new AddSubtractLesson());
 subject.add_lesson(new ProportionalReasoningLesson());
+subject.add_lesson(new ObjectCopyingLesson());
 curriculum.add_subject(subject);
 
 sidebar.set_curriculum(curriculum);
